@@ -1,0 +1,5 @@
+res://Scenes/Box.tscn
+res://Scenes/World.tscn
+res://Scenes/Player.tscn
+res://Scripts/Player.gd
+res://Scenes/Brick.tscn

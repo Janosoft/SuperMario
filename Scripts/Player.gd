@@ -6,10 +6,15 @@ const JUMP_VELOCITY = 350.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction = 0
+var lastDirection = 0
 var currentSpeed = 1
 var is_big = false
 var is_ducking = false
 @onready var animatedSprite = $AnimatedSprite2D
+@onready var small_fistLeft = $Hitbox/CollisionShape2D_small_fist_left
+@onready var small_fistRight = $Hitbox/CollisionShape2D_small_fist_right
+@onready var big_fistLeft = $Hitbox/CollisionShape2D_big_fist_left
+@onready var big_fistRight = $Hitbox/CollisionShape2D_big_fist_right
 
 func _physics_process(delta):
 	_apply_gravity(delta)
@@ -32,17 +37,21 @@ func _controls():
 		
 	# MOVE
 	direction = Input.get_axis("move_left", "move_right")
-	if direction: velocity.x =  max(velocity.x - SPEED, -MAXSPEED) * currentSpeed if direction<0 else min(velocity.x + SPEED, MAXSPEED) * currentSpeed
+	if direction: 
+		lastDirection= direction
+		velocity.x =  max(velocity.x - SPEED, -MAXSPEED) * currentSpeed if direction<0 else min(velocity.x + SPEED, MAXSPEED) * currentSpeed		
 	else: velocity.x = lerp(velocity.x,0.0,0.2)
 	# MOVE
 	
 	# DUCK
 	is_ducking= Input.is_action_pressed("duck")
+	# DUCK
 	
+	#DEBUG
 	if Input.is_action_just_pressed("ui_accept"):
 		if is_big: shrink()
 		else: grow()
-	# DUCK
+	#DEBUG
 
 func _animate():
 	if animatedSprite.animation in ["convert_small", "convert_big", "convert_fire"] and animatedSprite.is_playing():
@@ -52,7 +61,10 @@ func _animate():
 			if is_ducking:
 				animatedSprite.play("duck_big")
 			else:
-				if direction: animatedSprite.flip_h = direction<0
+				if direction: 
+					animatedSprite.flip_h = direction<0
+					big_fistLeft.disabled = direction<0
+					big_fistRight.disabled = direction>0
 				if is_on_floor():
 					if abs(velocity.x)< SPEED: animatedSprite.play("idle_big")
 					else : animatedSprite.play("walk_big")
@@ -62,7 +74,10 @@ func _animate():
 						if direction: animatedSprite.play("walk_big")
 						else: animatedSprite.play("idle_big")
 		else:
-			if direction: animatedSprite.flip_h = direction<0
+			if direction: 
+				animatedSprite.flip_h = direction<0
+				small_fistLeft.disabled = direction<0
+				small_fistRight.disabled = direction>0
 			if is_on_floor():
 				if abs(velocity.x)< SPEED: animatedSprite.play("idle_small")
 				else : animatedSprite.play("walk_small")
@@ -78,8 +93,10 @@ func grow():
 	if is_on_floor(): velocity.y = -10 #FIX UNDER FLOOR
 	$CollisionShape2D_big.disabled= false
 	$CollisionShape2D_small.disabled= true
-	$Hitbox/CollisionShape2D_small.disabled= true
-	$Hitbox/CollisionShape2D_big.disabled= false
+	big_fistLeft.disabled= lastDirection<0
+	big_fistRight.disabled= lastDirection>0
+	small_fistLeft.disabled= true
+	small_fistRight.disabled= true
 
 func shrink():
 	animatedSprite.play("convert_small")
@@ -87,5 +104,7 @@ func shrink():
 	if is_on_floor(): velocity.y = -200 #FIX UNDER FLOOR
 	$CollisionShape2D_small.disabled= false
 	$CollisionShape2D_big.disabled= true
-	$Hitbox/CollisionShape2D_big.disabled= true
-	$Hitbox/CollisionShape2D_small.disabled= false
+	big_fistLeft.disabled= true
+	big_fistRight.disabled= true
+	small_fistLeft.disabled= lastDirection<0
+	small_fistRight.disabled= lastDirection>0

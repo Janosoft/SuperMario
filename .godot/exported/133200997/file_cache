@@ -1,2 +1,4 @@
-res://Scenes/Player.tscn::584b8217f3c368610744e1a68f5021ee::1700410431::res://.godot/exported/133200997/export-a7209d3b864edc0146622aad500fa2c1-Player.scn
-res://Scenes/World.tscn::f55a3d556f88690976976c142c2a5834::1700410431::res://.godot/exported/133200997/export-a7039bbd18786b4499c98d2e8ae6919d-World.scn
+res://Scenes/Player.tscn::c982f9a820ed44b6defc09a36526462f::1700618808::res://.godot/exported/133200997/export-a7209d3b864edc0146622aad500fa2c1-Player.scn
+res://Scenes/World.tscn::5f60df123411038757bb75e161857a61::1700618658::res://.godot/exported/133200997/export-a7039bbd18786b4499c98d2e8ae6919d-World.scn
+res://Scenes/Box.tscn::90a1f4efd1d17942865184d2891070f1::1700618658::res://.godot/exported/133200997/export-0825d52c5f965c43d3edb3705f04af1e-Box.scn
+res://Scenes/Brick.tscn::1fe0129d381383d36873e286489a73a6::1700618658::res://.godot/exported/133200997/export-680f406bbd900644e78086cf3a3a8445-Brick.scn

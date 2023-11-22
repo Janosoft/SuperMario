@@ -1,21 +1,53 @@
-[gd_scene load_steps=7 format=3 uid="uid://k7oc0gxwvm63"]
+[gd_scene load_steps=10 format=3 uid="uid://k7oc0gxwvm63"]
 
-[ext_resource type="Texture2D" uid="uid://8gpnnmu4n41i" path="res://Assets/Worlds/world_1_1.png" id="1_cogn3"]
 [ext_resource type="Script" path="res://Scripts/Brick.gd" id="1_w87mc"]
+[ext_resource type="Texture2D" uid="uid://cjb2x05c5c2ve" path="res://Assets/Items/brick.png" id="2_4my0s"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y037l"]
-atlas = ExtResource("1_cogn3")
-region = Rect2(96, 32, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtg8l"]
+atlas = ExtResource("2_4my0s")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smp11"]
+atlas = ExtResource("2_4my0s")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up25p"]
+atlas = ExtResource("2_4my0s")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw3vx"]
+atlas = ExtResource("2_4my0s")
+region = Rect2(32, 0, 16, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tm3nv"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y037l")
+"texture": SubResource("AtlasTexture_qtg8l")
 }],
 "loop": false,
 "name": &"full",
 "speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smp11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up25p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aw3vx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up25p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smp11")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 20.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kfjpm"]
@@ -28,11 +60,11 @@ size = Vector2(16, 2)
 collision_layer = 8
 collision_mask = 6
 script = ExtResource("1_w87mc")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_tm3nv")
-animation = &"full"
+animation = &"hit"
 autoplay = "full"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

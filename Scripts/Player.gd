@@ -45,7 +45,7 @@ func _controls():
 	# DUCK
 
 func _animate():
-	if animatedSprite.is_playing() and animatedSprite.animation in ["convert_small", "convert_big", "convert_fire"]:
+	if animatedSprite.animation in ["convert_small", "convert_big", "convert_fire"] and animatedSprite.is_playing():
 		pass
 	else:
 		if is_big:
@@ -72,9 +72,10 @@ func _animate():
 					if direction: animatedSprite.play("walk_small")
 					else: animatedSprite.play("idle_small")
 
-func grow():
+func grow():	
 	animatedSprite.play("convert_big")
 	is_big= true
+	if is_on_floor(): velocity.y = -10 #FIX UNDER FLOOR
 	$CollisionShape2D_big.disabled= false
 	$CollisionShape2D_small.disabled= true
 	$Hitbox/CollisionShape2D_small.disabled= true
@@ -82,9 +83,9 @@ func grow():
 
 func shrink():
 	animatedSprite.play("convert_small")
-	velocity.y =0
 	is_big= false
+	if is_on_floor(): velocity.y = -200 #FIX UNDER FLOOR
 	$CollisionShape2D_small.disabled= false
 	$CollisionShape2D_big.disabled= true
 	$Hitbox/CollisionShape2D_big.disabled= true
-	$Hitbox/CollisionShape2D_small.disabled= false	
+	$Hitbox/CollisionShape2D_small.disabled= false

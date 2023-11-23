@@ -49,8 +49,8 @@ func _controls():
 	
 	#DEBUG
 	if Input.is_action_just_pressed("ui_accept"):
-		if is_big: shrink()
-		else: grow()
+		if is_big: _shrink()
+		else: _grow()
 	#DEBUG
 
 func _animate():
@@ -87,10 +87,10 @@ func _animate():
 					if direction: animatedSprite.play("walk_small")
 					else: animatedSprite.play("idle_small")
 
-func grow():	
+func _grow():	
 	animatedSprite.play("convert_big")
 	is_big= true
-	if is_on_floor(): velocity.y = -10 #FIX UNDER FLOOR
+	if is_on_floor(): velocity.y += -10 #FIX UNDER FLOOR
 	$CollisionShape2D_big.disabled= false
 	$CollisionShape2D_small.disabled= true
 	big_fistLeft.disabled= lastDirection<0
@@ -98,13 +98,25 @@ func grow():
 	small_fistLeft.disabled= true
 	small_fistRight.disabled= true
 
-func shrink():
+func _shrink():
 	animatedSprite.play("convert_small")
 	is_big= false
-	if is_on_floor(): velocity.y = -200 #FIX UNDER FLOOR
+	if is_on_floor(): velocity.y += -200 #FIX UNDER FLOOR
 	$CollisionShape2D_small.disabled= false
 	$CollisionShape2D_big.disabled= true
 	big_fistLeft.disabled= true
 	big_fistRight.disabled= true
 	small_fistLeft.disabled= lastDirection<0
 	small_fistRight.disabled= lastDirection>0
+
+func hit ():
+	if is_big: _shrink()
+	else: _die()
+
+func _die():
+	print ("MARIO DIED")
+
+func _on_hitbox_body_entered(body):
+	if body.get_name() in ["Goomba"]:
+		if is_on_floor(): hit()
+		else: body.hit()

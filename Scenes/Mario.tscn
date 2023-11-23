@@ -177,10 +177,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gbu8b"]
-size = Vector2(16, 31)
+size = Vector2(16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1eg0d"]
-size = Vector2(16, 16)
+size = Vector2(12, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b3ion"]
 size = Vector2(8, 6)
@@ -198,11 +198,11 @@ size = Vector2(8, 5)
 size = Vector2(8, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mi7f2"]
-size = Vector2(14, 9)
+size = Vector2(12, 1)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Mario" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 9
+collision_mask = 13
 script = ExtResource("1_hv2rx")
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
@@ -213,11 +213,12 @@ animation = &"idle_small"
 autoplay = "idle_small"
 
 [node name="CollisionShape2D_big" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+visible = false
 shape = SubResource("RectangleShape2D_gbu8b")
 disabled = true
 
 [node name="CollisionShape2D_small" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_1eg0d")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -232,16 +233,19 @@ collision_layer = 2
 collision_mask = 28
 
 [node name="CollisionShape2D_big_fist_left" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 position = Vector2(-4, -31)
 shape = SubResource("RectangleShape2D_b3ion")
 disabled = true
 
 [node name="CollisionShape2D_big_fist_right" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 position = Vector2(-12, -31)
 shape = SubResource("RectangleShape2D_nohv4")
 disabled = true
 
 [node name="CollisionShape2D_big_body" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 position = Vector2(-8, -9.5)
 shape = SubResource("RectangleShape2D_6rnm1")
 disabled = true
@@ -256,5 +260,8 @@ shape = SubResource("RectangleShape2D_5oabe")
 disabled = true
 
 [node name="CollisionShape2D_small_body" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-8, -13.5)
+position = Vector2(-8, -10.5)
 shape = SubResource("RectangleShape2D_mi7f2")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

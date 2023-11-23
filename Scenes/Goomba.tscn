@@ -38,10 +38,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w41tf"]
-size = Vector2(14, 15)
+size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vy05d"]
-size = Vector2(16, 2)
+size = Vector2(16, 3)
 
 [node name="Goomba" type="CharacterBody2D"]
 collision_layer = 4
@@ -50,20 +50,19 @@ script = ExtResource("1_x8gis")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_v41g1")
-animation = &"die"
+animation = &"walk"
 autoplay = "walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_w41tf")
 
 [node name="Hitbox" type="Area2D" parent="."]
 position = Vector2(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -9)
+position = Vector2(0, -8.5)
 shape = SubResource("RectangleShape2D_vy05d")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

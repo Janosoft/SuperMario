@@ -198,7 +198,7 @@ size = Vector2(8, 5)
 size = Vector2(8, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mi7f2"]
-size = Vector2(14, 3.5)
+size = Vector2(14, 5.375)
 
 [node name="Mario" type="CharacterBody2D"]
 collision_layer = 2
@@ -260,7 +260,7 @@ position = Vector2(-12, -24.5)
 shape = SubResource("RectangleShape2D_5oabe")
 
 [node name="CollisionShape2D_small_body" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-8, -11.25)
+position = Vector2(-8, -11.6875)
 shape = SubResource("RectangleShape2D_mi7f2")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

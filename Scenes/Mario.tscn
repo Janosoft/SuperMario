@@ -180,7 +180,7 @@ animations = [{
 size = Vector2(16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1eg0d"]
-size = Vector2(12, 15)
+size = Vector2(12, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b3ion"]
 size = Vector2(8, 6)
@@ -189,7 +189,7 @@ size = Vector2(8, 6)
 size = Vector2(8, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6rnm1"]
-size = Vector2(14, 17)
+size = Vector2(18, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3470w"]
 size = Vector2(8, 5)
@@ -198,7 +198,7 @@ size = Vector2(8, 5)
 size = Vector2(8, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mi7f2"]
-size = Vector2(12, 1)
+size = Vector2(14, 3.5)
 
 [node name="Mario" type="CharacterBody2D"]
 collision_layer = 2
@@ -218,7 +218,6 @@ shape = SubResource("RectangleShape2D_gbu8b")
 disabled = true
 
 [node name="CollisionShape2D_small" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_1eg0d")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -246,21 +245,22 @@ disabled = true
 
 [node name="CollisionShape2D_big_body" type="CollisionShape2D" parent="Hitbox"]
 visible = false
-position = Vector2(-8, -9.5)
+position = Vector2(-8, -3.5)
 shape = SubResource("RectangleShape2D_6rnm1")
 disabled = true
 
 [node name="CollisionShape2D_small_fist_left" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 position = Vector2(-4, -24.5)
 shape = SubResource("RectangleShape2D_3470w")
 
 [node name="CollisionShape2D_small_fist_right" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 position = Vector2(-12, -24.5)
 shape = SubResource("RectangleShape2D_5oabe")
-disabled = true
 
 [node name="CollisionShape2D_small_body" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-8, -10.5)
+position = Vector2(-8, -11.25)
 shape = SubResource("RectangleShape2D_mi7f2")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

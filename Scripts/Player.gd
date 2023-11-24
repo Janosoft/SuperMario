@@ -11,10 +11,6 @@ var currentSpeed = 1
 var is_big = false
 var is_ducking = false
 @onready var animatedSprite = $AnimatedSprite2D
-@onready var small_fistLeft = $Hitbox/CollisionShape2D_small_fist_left
-@onready var small_fistRight = $Hitbox/CollisionShape2D_small_fist_right
-@onready var big_fistLeft = $Hitbox/CollisionShape2D_big_fist_left
-@onready var big_fistRight = $Hitbox/CollisionShape2D_big_fist_right
 
 func _physics_process(delta):
 	_apply_gravity(delta)
@@ -63,8 +59,8 @@ func _animate():
 			else:
 				if direction: 
 					animatedSprite.flip_h = direction<0
-					big_fistLeft.disabled = direction<0
-					big_fistRight.disabled = direction>0
+					$Hitbox/CollisionShape2D_big_fist_left.disabled = direction<0
+					$Hitbox/CollisionShape2D_big_fist_right.disabled = direction>0
 				if is_on_floor():
 					if abs(velocity.x)< SPEED: animatedSprite.play("idle_big")
 					else : animatedSprite.play("walk_big")
@@ -76,8 +72,8 @@ func _animate():
 		else:
 			if direction: 
 				animatedSprite.flip_h = direction<0
-				small_fistLeft.disabled = direction<0
-				small_fistRight.disabled = direction>0
+				$Hitbox/CollisionShape2D_small_fist_left.disabled = direction<0
+				$Hitbox/CollisionShape2D_small_fist_right.disabled = direction>0
 			if is_on_floor():
 				if abs(velocity.x)< SPEED: animatedSprite.play("idle_small")
 				else : animatedSprite.play("walk_small")
@@ -92,22 +88,28 @@ func _grow():
 	is_big= true
 	if is_on_floor(): velocity.y += -10 #FIX UNDER FLOOR
 	$CollisionShape2D_big.disabled= false
+	$Hitbox/CollisionShape2D_big_body.disabled= false
+	$Hitbox/CollisionShape2D_big_fist_left.disabled= lastDirection<0
+	$Hitbox/CollisionShape2D_big_fist_right.disabled= lastDirection>0
+	
 	$CollisionShape2D_small.disabled= true
-	big_fistLeft.disabled= lastDirection<0
-	big_fistRight.disabled= lastDirection>0
-	small_fistLeft.disabled= true
-	small_fistRight.disabled= true
+	$Hitbox/CollisionShape2D_small_body.disabled= true
+	$Hitbox/CollisionShape2D_small_fist_left.disabled= true
+	$Hitbox/CollisionShape2D_small_fist_right.disabled= true
 
 func _shrink():
 	animatedSprite.play("convert_small")
 	is_big= false
-	if is_on_floor(): velocity.y += -200 #FIX UNDER FLOOR
-	$CollisionShape2D_small.disabled= false
 	$CollisionShape2D_big.disabled= true
-	big_fistLeft.disabled= true
-	big_fistRight.disabled= true
-	small_fistLeft.disabled= lastDirection<0
-	small_fistRight.disabled= lastDirection>0
+	$Hitbox/CollisionShape2D_big_body.disabled= true
+	$Hitbox/CollisionShape2D_big_fist_left.disabled= true
+	$Hitbox/CollisionShape2D_big_fist_right.disabled= true
+	
+	$CollisionShape2D_small.disabled= false
+	$Hitbox/CollisionShape2D_small_body.disabled= false
+	$Hitbox/CollisionShape2D_small_fist_left.disabled= false
+	$Hitbox/CollisionShape2D_small_fist_right.disabled= false
+	if is_on_floor(): velocity.y += -220 #FIX UNDER FLOOR
 
 func hit ():
 	if is_big: _shrink()
@@ -117,6 +119,14 @@ func _die():
 	print ("MARIO DIED")
 
 func _on_hitbox_body_entered(body):
+	print ("Mario hits with :" + body.name)
 	if body.get_name() in ["Goomba"]:
-		if is_on_floor(): hit()
-		else: body.hit()
+		if velocity.y < 0:
+			print (body.name + " must die")
+			#body.hit()
+			
+		else:
+			print ("Mario must die")
+			#hit()
+			
+			

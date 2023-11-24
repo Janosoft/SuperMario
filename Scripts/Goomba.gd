@@ -20,7 +20,9 @@ func _move():
 	if !died: velocity.x = SPEED * direction
 
 func _on_hitbox_body_entered(body):
+	#print ("Goomba HIT " + body.name )
 	direction*= -1
+	
 
 func hit():
 	_die()
@@ -32,3 +34,4 @@ func _die():
 
 func _on_animated_sprite_2d_animation_finished():
 	if animatedSprite.animation == "die": queue_free()
+

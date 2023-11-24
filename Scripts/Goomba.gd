@@ -17,7 +17,7 @@ func _apply_gravity(delta):
 		velocity.y += gravity * delta
 
 func _move():
-	if !died: velocity.x = SPEED * direction
+	if !died:velocity.x = SPEED * direction
 
 func _on_hitbox_body_entered(body):
 	#print ("Goomba HIT " + body.name )

@@ -1,2 +1,2 @@
 # SuperMario
-Juego de SuperMario de FamilyGame hecho en Godot
+Juego SuperMario de FamilyGame hecho en Godot

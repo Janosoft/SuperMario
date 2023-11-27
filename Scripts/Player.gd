@@ -15,7 +15,7 @@ var is_ducking = false
 func _physics_process(delta):
 	_apply_gravity(delta)
 	_animate()
-	_controls()	
+	_controls()
 	move_and_slide()
 	
 func _apply_gravity(delta):
@@ -25,7 +25,7 @@ func _apply_gravity(delta):
 func _controls():
 	if is_on_floor():
 		# JUMP
-		if Input.is_action_just_pressed("jump"): velocity.y = - JUMP_VELOCITY
+		if Input.is_action_just_pressed("jump"): _jump()
 		# JUMP
 		## Solo se puede cambiar la velocidad desde el suelo
 		if Input.is_action_pressed("run"): currentSpeed= 1.5
@@ -109,8 +109,11 @@ func _shrink():
 	$Hitbox/CollisionShape2D_small_body.disabled= false
 	$Hitbox/CollisionShape2D_small_fist_left.disabled= false
 	$Hitbox/CollisionShape2D_small_fist_right.disabled= false
-	if is_on_floor(): velocity.y += -220 #FIX UNDER FLOOR
+	if is_on_floor(): _jump() #FIX UNDER FLOOR
 
+func _jump():
+	velocity.y = - JUMP_VELOCITY
+	
 func hit ():
 	if is_big: _shrink()
 	else: _die()
@@ -119,14 +122,10 @@ func _die():
 	print ("MARIO DIED")
 
 func _on_hitbox_body_entered(body):
-	print ("Mario hits with :" + body.name)
-	if body.get_name() in ["Goomba"]:
-		if velocity.y < 0:
-			print (body.name + " must die")
-			#body.hit()
-			
+	#print ("Mario hits with :" + body.get_parent().name)
+	if body.get_parent().name == "Enemies":		
+		if velocity.y > 0:
+			_jump()
+			body.hit()
 		else:
-			print ("Mario must die")
-			#hit()
-			
-			
+			hit()

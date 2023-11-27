@@ -21,8 +21,8 @@ func _move():
 
 func _on_hitbox_body_entered(body):
 	#print ("Goomba HIT " + body.name )
-	direction*= -1
-	
+	if body.name != "Mario":
+		direction*= -1
 
 func hit():
 	_die()

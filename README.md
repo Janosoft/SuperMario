@@ -6,13 +6,13 @@
 Este proyecto es una emocionante recreación del legendario juego Super Mario Bros de Family Game. Desarrollado en Godot y programado en GDScript, el objetivo es ofrecer una experiencia nostálgica para los fanáticos del fontanero más famoso.
 
 ## Características Principales
-- **Recreación Fiel:** Reviví la magia del Super Mario Bros original con gráficos mejorados y jugabilidad clásica.
+- **Recreación Fiel:** Reviví la magia del Super Mario Bros original con su jugabilidad clásica.
 - **Desarrollado en Godot:** Utilizando el motor de juegos Godot 4 para un desarrollo ágil y eficiente.
 - **GDScript:** El lenguaje de programación GDScript facilita la creación de mecánicas de juego y eventos.
 
 ## Cómo Empezar
 1. **Requisitos Previos:**
-   - Godot Engine 4.1.3 instalado.
+   - Godot Engine 4.2 instalado.
    - Clona este repositorio: `git clone git@github.com:Janosoft/SuperMario.git`
 
 2. **Ejecutar el Juego:**

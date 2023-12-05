@@ -3,7 +3,7 @@ extends CharacterBody2D
 const SPEED = 25
 var direction = -1
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var died = false
+var dying = false
 
 @onready var animatedSprite= $AnimatedSprite2D
 
@@ -17,21 +17,18 @@ func _apply_gravity(delta):
 		velocity.y += gravity * delta
 
 func _move():
-	if !died:velocity.x = SPEED * direction
-
-func _on_hitbox_body_entered(body):
-	#print ("Goomba HIT " + body.name )
-	if body.name != "Mario":
+	if !dying: velocity.x = SPEED * direction #Evita que se mueva mientras está muriendo
+	if is_on_wall():
 		direction*= -1
+		position.x += 1 * direction #Evita que se quede atascado
 
 func hit():
 	_die()
 
 func _die():
-	died = true;
+	dying = true;
 	velocity.x = 0
 	animatedSprite.play("die")
 
 func _on_animated_sprite_2d_animation_finished():
 	if animatedSprite.animation == "die": queue_free()
-

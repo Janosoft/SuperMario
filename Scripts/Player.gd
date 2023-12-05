@@ -59,8 +59,6 @@ func _animate():
 			else:
 				if direction: 
 					animatedSprite.flip_h = direction<0
-					$Hitbox/CollisionShape2D_big_fist_left.disabled = direction<0
-					$Hitbox/CollisionShape2D_big_fist_right.disabled = direction>0
 				if is_on_floor():
 					if abs(velocity.x)< SPEED: animatedSprite.play("idle_big")
 					else : animatedSprite.play("walk_big")
@@ -72,8 +70,6 @@ func _animate():
 		else:
 			if direction: 
 				animatedSprite.flip_h = direction<0
-				$Hitbox/CollisionShape2D_small_fist_left.disabled = direction<0
-				$Hitbox/CollisionShape2D_small_fist_right.disabled = direction>0
 			if is_on_floor():
 				if abs(velocity.x)< SPEED: animatedSprite.play("idle_small")
 				else : animatedSprite.play("walk_small")
@@ -89,26 +85,16 @@ func _grow():
 	if is_on_floor(): velocity.y += -10 #FIX UNDER FLOOR
 	$CollisionShape2D_big.disabled= false
 	$Hitbox/CollisionShape2D_big_body.disabled= false
-	$Hitbox/CollisionShape2D_big_fist_left.disabled= lastDirection<0
-	$Hitbox/CollisionShape2D_big_fist_right.disabled= lastDirection>0
-	
 	$CollisionShape2D_small.disabled= true
 	$Hitbox/CollisionShape2D_small_body.disabled= true
-	$Hitbox/CollisionShape2D_small_fist_left.disabled= true
-	$Hitbox/CollisionShape2D_small_fist_right.disabled= true
 
 func _shrink():
 	animatedSprite.play("convert_small")
 	is_big= false
 	$CollisionShape2D_big.disabled= true
 	$Hitbox/CollisionShape2D_big_body.disabled= true
-	$Hitbox/CollisionShape2D_big_fist_left.disabled= true
-	$Hitbox/CollisionShape2D_big_fist_right.disabled= true
-	
 	$CollisionShape2D_small.disabled= false
 	$Hitbox/CollisionShape2D_small_body.disabled= false
-	$Hitbox/CollisionShape2D_small_fist_left.disabled= false
-	$Hitbox/CollisionShape2D_small_fist_right.disabled= false
 	if is_on_floor(): _jump() #FIX UNDER FLOOR
 
 func _jump():
@@ -121,11 +107,14 @@ func hit ():
 func _die():
 	print ("MARIO DIED")
 
-func _on_hitbox_body_entered(body):
-	#print ("Mario hits with :" + body.get_parent().name)
-	if body.get_parent().name == "Enemies":		
+func _on_hitbox_area_entered(area):
+	#print ("Mario area hits with :" + area.get_parent().get_parent().name)
+	if area.get_parent().get_parent().name == "Enemies":
 		if velocity.y > 0:
 			_jump()
-			body.hit()
+			area.get_parent().hit()
 		else:
 			hit()
+	else:
+		velocity.x= 0
+		area.get_parent().hit(is_big)

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6yw7gh5bykg8"]
+
+[ext_resource type="Script" path="res://Scripts/MushRoom.gd" id="1_6x6mj"]
+[ext_resource type="Texture2D" uid="uid://cyvjneuww4vwn" path="res://Assets/Items/items.png" id="1_ppbcl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x76x5"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w5hsx"]
+size = Vector2(14, 15)
+
+[node name="MushRoom" type="CharacterBody2D"]
+position = Vector2(-1, 0)
+collision_layer = 16
+collision_mask = 13
+script = ExtResource("1_6x6mj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ppbcl")
+hframes = 4
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_x76x5")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_w5hsx")

@@ -197,11 +197,10 @@ metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_i8db1")
-animation = &"idle_small"
+animation = &"convert_small"
 autoplay = "idle_small"
 
 [node name="CollisionShape2D_big" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_gbu8b")
 disabled = true
 
@@ -220,7 +219,6 @@ collision_layer = 2
 collision_mask = 28
 
 [node name="CollisionShape2D_big_body" type="CollisionShape2D" parent="Hitbox"]
-visible = false
 position = Vector2(-8, -18)
 shape = SubResource("RectangleShape2D_6rnm1")
 disabled = true
@@ -230,4 +228,9 @@ position = Vector2(-8, -18)
 shape = SubResource("RectangleShape2D_mi7f2")
 debug_color = Color(0, 1, 0.701961, 0.419608)
 
+[node name="ReEnableHitbox" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="ReEnableHitbox" to="." method="_on_re_enable_hitbox_timeout"]

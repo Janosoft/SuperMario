@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 10
-const MAXSPEED = 125
+const SPEED = 200
 const JUMP_VELOCITY = 350.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -10,34 +9,31 @@ var lastDirection = 0
 var currentSpeed = 1
 var is_big = false
 var is_ducking = false
+
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var hitboxTimer = $ReEnableHitbox
 
 func _physics_process(delta):
 	_apply_gravity(delta)
 	_animate()
-	_controls()
+	_controls(delta)
 	move_and_slide()
 	
 func _apply_gravity(delta):
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	if not is_on_floor(): velocity.y += gravity * delta
 
-func _controls():
+func _controls(delta):
 	if is_on_floor():
-		# JUMP
 		if Input.is_action_just_pressed("jump"): _jump()
-		# JUMP
-		## Solo se puede cambiar la velocidad desde el suelo
 		if Input.is_action_pressed("run"): currentSpeed= 1.5
-		else: currentSpeed= 1	
-		
+		else: currentSpeed= 1
+	elif Input.is_action_just_released("jump") and velocity.y < 0: velocity.y *= 0.5 # Medio salto
 	# MOVE
 	direction = Input.get_axis("move_left", "move_right")
 	if direction: 
 		lastDirection= direction
-		velocity.x =  max(velocity.x - SPEED, -MAXSPEED) * currentSpeed if direction<0 else min(velocity.x + SPEED, MAXSPEED) * currentSpeed		
-	else: velocity.x = lerp(velocity.x,0.0,0.2)
+		velocity.x =  lerpf(velocity.x, SPEED * direction, 0.5 * delta)
+	else: velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 	# MOVE
 	
 	# DUCK
@@ -55,7 +51,7 @@ func _animate():
 				if direction: 
 					animatedSprite.flip_h = direction<0
 				if is_on_floor():
-					if abs(velocity.x)< SPEED: animatedSprite.play("idle_big")
+					if abs(velocity.x) == 0: animatedSprite.play("idle_big")
 					else : animatedSprite.play("walk_big")
 				else:
 					if velocity.y <0: animatedSprite.play("jump_big")
@@ -66,8 +62,8 @@ func _animate():
 			if direction: 
 				animatedSprite.flip_h = direction<0
 			if is_on_floor():
-				if abs(velocity.x)< SPEED: animatedSprite.play("idle_small")
-				else : animatedSprite.play("walk_small")
+				if abs(velocity.x) == 0: animatedSprite.play("idle_small")
+				else: animatedSprite.play("walk_small")
 			else:
 				if velocity.y <0: animatedSprite.play("jump_small")
 				else:
@@ -75,14 +71,17 @@ func _animate():
 					else: animatedSprite.play("idle_small")
 
 func _grow():
+	set_physics_process(false)
 	animatedSprite.play("convert_big")
 	is_big= true
 	$CollisionShape2D_big.disabled= false
 	$Hitbox/CollisionShape2D_big_body.disabled= false
 	$CollisionShape2D_small.disabled= true
 	$Hitbox/CollisionShape2D_small_body.disabled= true
+	set_physics_process(true)
 
 func _shrink():
+	set_physics_process(false)
 	is_big= false
 	if is_on_floor(): velocity.y = - (JUMP_VELOCITY/2) #FIX UNDER FLOOR
 	$CollisionShape2D_small.disabled= false
@@ -91,6 +90,7 @@ func _shrink():
 	$Hitbox/CollisionShape2D_small_body.disabled= true
 	animatedSprite.play("convert_small")
 	hitboxTimer.start()
+	set_physics_process(true)
 func _jump():
 	velocity.y = - JUMP_VELOCITY
 	
@@ -99,11 +99,23 @@ func hit():
 	else: _die()
 
 func _die():
-	print ("MARIO DIED")
+	set_physics_process(false)
+	velocity.x = 0
+	animatedSprite.play("die_small")
+	$CollisionShape2D_small.disabled= true
+	$CollisionShape2D_big.disabled= true
+	$Hitbox/CollisionShape2D_big_body.disabled= true
+	$Hitbox/CollisionShape2D_small_body.disabled= true
+	var death_tween = get_tree().create_tween()
+	death_tween.tween_property(self, "position", position + Vector2(0, -28), .5)
+	death_tween.chain().tween_property(self, "position", position + Vector2(0, 256), 1)
 
 func _on_hitbox_area_entered(area):
 	print ("Mario area hits with: " + area.get_parent().name)
-	if area.get_parent().name == "MushRoom":
+	if area.get_parent().name == "Pits":
+		#TODO FIX
+		_die()
+	elif area.get_parent().name == "MushRoom":
 		call_deferred('_grow')
 		area.get_parent().hit()
 	elif area.get_parent().get_parent().name == "Enemies":

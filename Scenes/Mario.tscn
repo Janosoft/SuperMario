@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bv327k4laepj"]
+[gd_scene load_steps=30 format=3 uid="uid://bv327k4laepj"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_hv2rx"]
 [ext_resource type="Texture2D" uid="uid://buh6tylqdd3t4" path="res://Assets/Mario/small.png" id="2_kttgn"]
@@ -47,6 +47,22 @@ region = Rect2(80, 0, 16, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_e0ec1"]
 atlas = ExtResource("2_kttgn")
 region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1o1of"]
+atlas = ExtResource("3_5ljmv")
+region = Rect2(16, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6jg6"]
+atlas = ExtResource("2_kttgn")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_og1tt"]
+atlas = ExtResource("3_5ljmv")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vbb8"]
+atlas = ExtResource("2_kttgn")
+region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aj1xy"]
 atlas = ExtResource("3_5ljmv")
@@ -149,6 +165,38 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_1o1of")
+}],
+"loop": false,
+"name": &"pole_big",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6jg6")
+}],
+"loop": false,
+"name": &"pole_small",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_og1tt")
+}],
+"loop": false,
+"name": &"slide_big",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vbb8")
+}],
+"loop": false,
+"name": &"slide_small",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_aj1xy")
 }, {
 "duration": 1.0,
@@ -197,7 +245,7 @@ metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_i8db1")
-animation = &"convert_small"
+animation = &"die_small"
 autoplay = "idle_small"
 
 [node name="CollisionShape2D_big" type="CollisionShape2D" parent="."]

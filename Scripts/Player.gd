@@ -126,7 +126,8 @@ func _on_hitbox_area_entered(area):
 		else:
 			# Mario Loose
 			call_deferred('hit')
-
+	else:
+		area.get_parent().hit(is_big)
 func _on_re_enable_hitbox_timeout():
 	#AVOID GET HITTED TWICE
 	$Hitbox/CollisionShape2D_big_body.disabled= true
